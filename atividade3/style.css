@@ -1,0 +1,110 @@
+html{
+    min-height: 100dvh;
+    min-width: 100dvw;
+}
+
+body{
+    background-color: lightgray;
+}
+
+
+.area_do_jogo {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.area_do_jogo .inimigo {
+    position: absolute;
+
+    width: 64px;
+    height: 64px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+    background-image: url("mask_yami.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    display: none;
+}
+
+.placar_geral{
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+    flex-wrap: wrap;
+    align-items: center;
+    position: fixed;
+
+    width: 10vw;
+    height: 15vh;
+
+    background-color: white;
+    pointer-events: none;
+
+    margin-left: 80dvw;
+    margin-top: 10dvh;
+
+    padding: 10vh;
+}
+.tela_inicial{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20vh;
+
+}
+.tela_inicial .inserir_dados{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+
+}
+.tela_inicial .inserir_dados p {
+    margin:0;
+    gap:0;
+}
+.tela_inicial .inserir_dados input{
+    padding:4px;
+}
+.inserir_dados button{
+    padding: 15px;
+    border: 1px dotted gray;
+    border-radius: 10px;
+}
+.inserir_dados button:hover{
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+}
+
+.tela_inicial .O_JOGO{
+    position: fixed;
+    top: 50%;
+    pointer-events: none;
+    margin: 0;
+
+}
+
+footer p{
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    bottom: 0;
+    width: 100%;
+    align-items: center;
+}

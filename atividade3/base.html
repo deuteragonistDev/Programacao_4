@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>joguinho</title>
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./mask_yami.png" type="image/x-icon" sizes="32x32">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+<div class="area_do_jogo">
+    <div id="inimigo" class="inimigo"></div>
+</div>
+<header>
+<!--    <span class=""> UM JOGO AI  </span>-->
+    <nav>
+    </nav>
+
+    <div class="placar_geral">
+        <span id="placar_de_jogadores"></span>
+        <ol class="lista_jogadores" id="lista_jogador" style="list-style: none;">
+
+        </ol>
+    </div>
+</header>
+
+<main>
+    <div class="tela_inicial">
+        <div class="inserir_dados">
+            <h1 class="O_JOGO">O JOGO HAHAHAHAH </h1>
+            <p>JOGADOR <input type="text" id="nome" placeholder="Digite seu nick aqui"> </p>
+
+            <button id="INICIAR"> INICIAR </button>
+            <button id="PARAR" style="display:none"> PARAR </button>
+        </div>
+    </div>
+    <div class="tela_jogo">
+        <div class="placar">
+            <span class="placar_jogador"> </span>
+            <span class="placar_cpu"> </span>
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <p> PROPIEDADE DE ALGUEM AI </p>
+</footer>
+</body>
+</html>
