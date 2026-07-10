@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="no-js" lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Personagens - Night City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/Personagens.css">
+  <link rel="icon" href="../../icon.png" type="image/png">
+</head>
+<body>
+<nav>
+  <ul>
+    <li class="links-nav"><a href="../../index.html">INICIO</a></li>
+    <li class="texto-personagem">PERSONAGENS:</li>
+    <li class="links-nav"><a href="#david-martinez">David Martinez</a></li>
+    <li class="links-nav"><a href="#lucy-kushinada">Lucy Kushinada</a></li>
+    <li class="links-nav"><a href="#maine">Maine</a></li>
+    <li class="links-nav"><a href="#dorio">Dorio</a></li>
+    <li class="links-nav"><a href="#kiwi">Kiwi</a></li>
+    <li class="links-nav"><a href="#rebecca">Rebecca</a></li>
+    <li class="links-nav"><a href="#pilar">Pilar</a></li>
+    <li class="links-nav"><a href="#falco">Falco</a></li>
+  </ul>
+</nav>
+
+<main id="container-personagens">
+  <div style="color: yellow; text-align: center; padding: 100px; font-family: 'Space Mono';">Conectando ao banco de dados SQLite...</div>
+</main>
+
+<footer>
+  <ul>
+    <li class="li-github"><a href="https://github.com/GATOROXO"><img src="../../img/github.png" alt="github.com"><span>GITHUB</span></a></li>
+    <li class="li-linkedin"><a href="https://www.linkedin.com/in/jo%C3%A3o-paulo-alves-campos-b67429274/"><img src="../../img/linkedin.png" alt="linkedin"><span>JPAC</span></a></li>
+    <li class="li-instagram"><a href="https://www.instagram.com/jonh_poul__/"><img src="../../img/instagram.png" alt="instagram.com"><span>@jonh_poul__</span></a></li>
+    <li class="li-link-neologismo"><a href="../Neologismos/Neologismos.html"><span>NEOLOGISMO E TERMOS</span></a></li>
+    <li class="li-link-personagens"><a href="../Sinopses/Sinopse.html"><span>SINOPSE</span></a></li>
+  </ul>
+</footer>
+
+<script>
+  async function carregarPersonagens() {
+    const container = document.getElementById('container-personagens');
+    try {
+      const resposta = await fetch('http://localhost:3000/api/conteudos');
+      const personagens = await resposta.json();
+
+      if (!resposta.ok) throw new Error("Erro na requisição.");
+
+      container.innerHTML = "";
+
+      // 1. LISTA DE PROTEÇÃO: Preserva as configurações originais do seu Personagens.css
+      const originais = ['david-martinez', 'lucy-kushinada', 'maine', 'dorio', 'kiwi', 'rebecca', 'pilar', 'falco'];
+
+      personagens.forEach((p) => {
+        const classeId = p.titulo.toLowerCase().replace(/ /g, "-");
+
+        const secao = document.createElement('section');
+        secao.id = classeId;
+        secao.className = `personagem-individual-tela-inteira ${classeId}`;
+
+        // 2. MACETE: Só injeta a imagem inline se for um personagem NOVO criado no painel
+        if (!originais.includes(classeId)) {
+          secao.style.setProperty('--imagem-fundo-principal', `url('../../img/${p.imagem}')`);
+          secao.style.setProperty('--imagem-parallax', `url('../../img/${p.imagem}')`);
+          // Define um tamanho padrão seguro para o parallax de novos personagens
+          secao.style.setProperty('--parallax-tamanho', '35% auto');
+        }
+
+        secao.innerHTML = `
+            <div class="conteudo-personagem">
+              <div class="texto-personagem">
+                <h3 class="nome-do-personagem-destaque">${p.titulo}</h3>
+                <p class="biografia-resumida">${p.texto}</p>
+              </div>
+            </div>
+          `;
+        container.appendChild(secao);
+      });
+
+      // RE-INICIALIZAÇÃO DAS ANIMAÇÕES DO OBSERVER ORIGINAL
+      const secoes = document.querySelectorAll('.personagem-individual-tela-inteira');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('animar');
+          else entry.target.classList.remove('animar');
+        });
+      }, { threshold: 0.6 });
+      secoes.forEach(s => observer.observe(s));
+
+    } catch (err) {
+      container.innerHTML = `<div style="color: red; text-align: center; padding: 100px;">⚠️ Falha ao carregar API do Back-end.</div>`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', carregarPersonagens);
+</script>
+</body>
+</html>

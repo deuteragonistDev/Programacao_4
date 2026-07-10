@@ -1,0 +1,519 @@
+html {
+  /*scroll-behavior: smooth; NAO FUNCIONA POIS A ROLAGEM TA OCORRENDO NA MAIN E NAO NA BODY OU HTML*/
+}
+
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Scroll principal com snap por personagem */
+main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+/* Barra de rolagem no conteudo principal */
+main::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+main::-webkit-scrollbar-track {
+  background: black;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
+}
+
+/* Menu lateral seguindo o formato da sinopse */
+nav::before {
+  background: #110;
+  content: "";
+}
+
+nav {
+  width: 90px;
+  background: #110;
+  padding: 20px;
+  box-sizing: border-box;
+  border-block-start-radius: 10px;
+  transition: 0.3s;
+}
+
+.texto-personagem{
+  color: yellow;
+}
+
+nav:hover {
+  width: 200px;
+  padding: 20px;
+  /*border-top-right-radius: 10px;*/
+  /*border-bottom-right-radius: 10px;*/
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+nav li {
+  opacity: 0.3;
+  overflow-x: clip;
+  transition: opacity 0.3s ease-in-out;
+  white-space: nowrap;
+  margin: 5px;
+}
+
+nav:hover li {
+  opacity: 1;
+}
+
+nav a {
+  text-decoration: none;
+  color: #b3d4fc;
+  font-size: 12px;
+  padding: 10px;
+  display: block;
+  transition: 0.3s;
+  border: 1px solid #002020;
+  border-radius: 10px;
+}
+
+nav a:hover {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+}
+
+/* Secao por personagem */
+.personagem-individual-tela-inteira {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  isolation: isolate;
+
+  padding: 40px;
+  box-sizing: border-box;
+
+  background-size: cover ;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  --imagem-fundo-principal: none;
+  --imagem-parallax: none;
+}
+
+.personagem-individual-tela-inteira::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    var(--imagem-fundo-principal);
+  background-size: cover;
+  z-index:-2;
+}
+
+.personagem-individual-tela-inteira::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: var(--imagem-parallax);
+  background-position: var(--parallax-posicao, center);
+  background-size: var(--parallax-tamanho, min(65vw, 760px) auto);
+  background-repeat: no-repeat;
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+/*FOTOS DO FUNDO + PARALLAX DE CADA PERSONAGEM POR ENQUANTO*/
+
+.david-martinez {
+  --imagem-fundo-principal: url("../img/background_principal.png");
+  --imagem-parallax: url("../img/david_martinez.png");
+
+  --parallax-posicao: -8vw 20vh;
+  --parallax-tamanho: 35% auto;
+}
+
+.lucy-kushinada{
+
+  --imagem-fundo-principal: url("../img/background_lucy.png");
+  --imagem-parallax: url("../img/lucy_kushinada.png");
+
+  --parallax-posicao: 60vw 15vh;
+  --parallax-tamanho: 35% auto;
+}
+.lucy-kushinada::after{
+  z-index: 0;
+}
+.maine{
+  --imagem-fundo-principal: url("../img/background_maine.png");
+  --imagem-parallax: url("../img/maine.png");
+
+  --parallax-posicao: -6vw 0vh;
+  --parallax-tamanho: 40% auto;
+}
+.maine::after{
+  z-index: 0;
+}
+
+.dorio{
+  --imagem-fundo-principal: url("../img/background_dorio.png");
+  --imagem-parallax: url("../img/dorio.png");
+
+  --parallax-posicao: 60vw 15vh;
+  --parallax-tamanho: 35% auto;
+}
+.dorio::after{
+  z-index: 0;
+}
+.dorio .conteudo-personagem:hover {
+  z-index: 1;
+  transform: scale(1.05);
+  transition: 0.2s;
+
+}
+.kiwi{
+  --imagem-fundo-principal: url("../img/background_kiwi.png");
+  --imagem-parallax: url("../img/kiwi.png");
+
+  --parallax-posicao: -10vw 0vh ;
+  --parallax-tamanho: 50% auto ;
+}
+.kiwi:after{
+  z-index: 0;
+}
+.kiwi .conteudo-personagem:hover{
+  z-index: 1;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.rebecca{
+  --imagem-fundo-principal: url("../img/background_rebecca.png");
+  --imagem-parallax:  url("../img/rebecca.png");
+
+  --parallax-posicao: 55vw 10vh ;
+  --parallax-tamanho: 50% auto;
+}
+.rebecca:after {
+  z-index: 0;
+}
+.rebecca .conteudo-personagem:hover{
+  z-index: 1;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+
+.pilar{
+  --imagem-fundo-principal: url("../img/background_pilar.png");
+  --imagem-parallax: url("../img/pilar.png");
+
+  --parallax-posicao: -1vw 10vh ;
+  --parallax-tamanho: 40% auto;
+}
+
+.pilar:after{
+  z-index:0;
+}
+
+.pilar .conteudo-personagem:hover{
+  transition: 0.2s;
+  z-index: 1;
+  transform: scale(1.05);
+}
+
+.falco{
+  --imagem-fundo-principal: url("../img/background_falco.png");
+  --imagem-parallax: url("../img/falco.png");
+
+  --parallax-posicao: 56vw 10vh ;
+  --parallax-tamanho: 40% auto;
+}
+
+.falco:after{
+  z-index: 0;
+}
+
+.falco .conteudo-personagem:hover{
+  transform: scale(1.05);
+  transition: 0.2s;
+  z-index: 1;
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+
+/*animacoes dos personagens*/
+@keyframes deslizar-epd-parallax {
+  0% {
+    transform: translateX(-100vw);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes deslizar-dpe-parallax {
+  0% {
+    transform: translateX(100vw);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+
+
+
+.david-martinez::after {
+  animation: none;
+}
+
+.david-martinez.animar::after {
+  animation: deslizar-epd-parallax 1s ease-in-out;
+}
+.lucy-kushinada::after {
+  animation: none;
+}
+
+
+.lucy-kushinada.animar::after {
+  animation: deslizar-dpe-parallax 1s ease-in-out;
+}
+.lucy-kushinada .conteudo-personagem {
+  margin-left: -300px;
+}
+.maine::after{
+  animation:none;
+}
+
+.maine.animar::after {
+  animation: deslizar-epd-parallax 1s ease-in-out;
+}
+
+.maine .conteudo-personagem {
+  margin-left: 300px;
+}
+.dorio::after{
+  animation:none;
+}
+.dorio.animar::after {
+  animation: deslizar-dpe-parallax 1s ease-in-out;
+}
+
+.dorio .conteudo-personagem {
+  margin-left: -280px;
+}
+.kiwi::after{
+  animation:none;
+}
+.kiwi.animar::after{
+  animation: deslizar-epd-parallax 1s ease-in-out;
+}
+
+.kiwi .conteudo-personagem{
+  margin-left: 300px;
+}
+.rebecca .conteudo-personagem{
+  margin-left: -200px;
+
+}
+.rebecca::after{
+  animation:none;
+}
+
+.rebecca.animar:after{
+  animation: deslizar-dpe-parallax 1s ease-in-out;
+}
+
+.pilar{
+  animation: none;
+}
+.pilar.animar:after{
+  animation: deslizar-epd-parallax 1s ease-in-out;
+}
+
+.falco{
+  animation: none;
+}
+.falco.animar:after{
+  animation: deslizar-dpe-parallax 1s ease-in-out;
+}
+
+
+
+/*///////////////////////////////////////////////////*/
+.conteudo-personagem {
+  /*display: grid;*/
+  /*grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);*/
+  margin-left: 10vw;
+  gap: 32px;
+  font-style:oblique ;
+  align-items: center;
+  max-width: 980px;
+  width: 100%;
+  padding: 28px;
+  /*border: 1px solid cyan;*/
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.35);
+  /*box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);*/
+  /*backdrop-filter: blur(2px);*/
+}
+
+/*@media (max-width: 860px) {*/
+/*  .conteudo-personagem {*/
+/*    grid-template-columns: 1fr;*/
+/*    text-align: center;*/
+/*  }*/
+/*}
+Quando a tela tiver até 860px, o conteúdo vira uma coluna.
+
+Mas como o grid-template-columns principal está comentado, essa regra quase não muda nada agora.
+Ela faria mais sentido se você ativasse isto:
+
+'''grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);'''
+
+Essa linha criaria duas colunas:
+
+[ imagem ] [ texto ]
+*/
+
+.nome-do-personagem-destaque {
+  margin: 0 0 12px;
+  color: yellow;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+}
+
+.foto-do-personagem {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 12px;
+  justify-self: center;
+}
+
+.biografia-resumida,
+.personalidade-do-personagem {
+  margin: 0 0 12px;
+  color: #e7e70a;
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.7;
+}
+
+.personalidade-do-personagem {
+  margin-bottom: 0;
+}
+
+/* Footer lateral direito igual ao da sinopse */
+footer {
+  width: 70px;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 4px;
+  background: #110;
+  color: #b3d4fc;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+footer a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #b3d4fc;
+  opacity: 0.2;
+  flex-direction: column;
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+
+footer ul {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+footer li {
+  list-style: none;
+  padding: 0;
+  height: 90px;
+  width: 30px;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+footer:hover {
+  width: 200px;
+  padding: 20px;
+  transition: 0.3s ease;
+  gap: 10px;
+}
+
+footer:hover ul {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 20px;
+}
+footer:hover li {
+  border: 1px solid #002020;
+  border-radius: 10px;
+  list-style: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  display: block;
+  gap: 10px;
+}
+
+footer a:hover {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+  padding: 10px;
+}
+
+footer:hover a {
+  transform: rotate(0deg);
+  opacity: 1;
+  transition: 0.3s;
+}
+
+
+.

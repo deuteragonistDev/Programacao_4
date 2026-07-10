@@ -36,28 +36,32 @@ body{
     display: none;
 }
 
-.placar_geral{
-    display: flex;
-    flex-direction: column;
-
-    border: 1px solid black;
-    border-radius: 10px;
-
-    flex-wrap: wrap;
-    align-items: center;
-    position: fixed;
-
-    width: 10vw;
-    height: 15vh;
-
-    background-color: white;
-    pointer-events: none;
-
-    margin-left: 80dvw;
-    margin-top: 10dvh;
-
-    padding: 10vh;
+.placar_geral {
+    z-index: 20;
 }
+
+/*.placar_geral{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+
+/*    border: 1px solid black;*/
+/*    border-radius: 10px;*/
+
+/*    flex-wrap: wrap;*/
+/*    align-items: center;*/
+/*    position: fixed;*/
+
+/*    width: 10vw;*/
+/*    height: 15vh;*/
+
+/*    background-color: white;*/
+/*    pointer-events: none;*/
+
+/*    margin-left: 80dvw;*/
+/*    margin-top: 10dvh;*/
+
+/*    padding: 10vh;*/
+/*}*/
 .tela_inicial{
     display: flex;
     flex-direction: column;

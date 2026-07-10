@@ -1,0 +1,287 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+main::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+main::-webkit-scrollbar-track {
+  background: black;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
+}
+
+nav::before {
+  background: #110;
+  content: "";
+}
+
+nav {
+  width: 90px;
+  background: #110;
+  padding: 20px;
+  box-sizing: border-box;
+  border-block-start-radius: 10px;
+  transition: 0.3s;
+}
+
+nav:hover {
+  width: 200px;
+  padding: 20px;
+  /*border-top-right-radius: 10px;*/
+  /*border-bottom-right-radius: 10px;*/
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.texto-termos{
+  color: yellow;
+  font-size: 15px;
+}
+nav li {
+  opacity: 0.3;
+  overflow-x: clip;
+  transition: opacity 0.3s ease-in-out;
+  white-space: nowrap;
+  margin: 5px;
+}
+
+nav:hover li {
+  opacity: 1;
+}
+
+nav a {
+  text-decoration: none;
+  color: #b3d4fc;
+  font-size: 12px;
+  padding: 10px;
+  display: block;
+  transition: 0.3s;
+  border: 1px solid #002020;
+  border-radius: 10px;
+}
+
+nav a:hover {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+}
+
+.secao-de-neologismos-e-termos {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+
+  padding: 40px;
+  box-sizing: border-box;
+  --imagem-fundo-principal: url("../img/Background_neologismo.png");
+  --imagem-parallax: none;
+}
+
+.secao-de-neologismos-e-termos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    var(--imagem-fundo-principal);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+}
+
+.secao-de-neologismos-e-termos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--imagem-parallax);
+  background-repeat: no-repeat;
+  background-size: var(--parallax-size, min(55vw, 640px) auto);
+  background-position: var(--parallax-position, 60% 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.conteudo-neologismos {
+  max-width: 920px;
+  width: 100%;
+  padding: 28px;
+  border: 1px solid cyan;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(0px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
+}
+
+.conteudo-neologismos:hover{
+  backdrop-filter: blur(4px);
+  transform: scale(1.05);
+  transition: 0.2s;
+  z-index: 1;
+}
+
+.titulo-da-secao {
+  margin: 0 0 16px;
+  font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+  color: yellow;
+}
+
+.paragrafo-introdutorio-neologismos {
+  margin: 0 0 22px;
+  color: #e7e70a;
+  font-size: clamp(0.98rem, 1.3vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.lista-de-neologismos-do-edgerunners {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.termo-neologismo {
+  color: #b3d4fc;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
+  scroll-margin-top: 20px;
+}
+
+.termo-neologismo .link-termo {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.termo-neologismo .link-termo:hover,
+.termo-neologismo .link-termo:focus {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+}
+
+.explicacao-do-termo {
+  margin: 6px 0 0;
+  color: #e7e70a;
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  line-height: 1.6;
+}
+
+
+footer {
+  width: 70px;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 4px;
+  background: #110;
+  color: #b3d4fc;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+footer a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #b3d4fc;
+  opacity: 0.2;
+  flex-direction: column;
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+
+footer ul {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+footer li {
+  list-style: none;
+  padding: 0;
+  height: 90px;
+  width: 30px;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+footer:hover {
+  width: 200px;
+  padding: 20px;
+  transition: 0.3s ease;
+  gap: 10px;
+}
+
+footer:hover ul {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 20px;
+}
+
+footer:hover li {
+  border: 1px solid #002020;
+  border-radius: 10px;
+  list-style: none;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  display: block;
+  gap: 10px;
+}
+
+footer a:hover {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+  padding: 10px;
+}
+
+footer:hover a {
+  transform: rotate(0deg);
+  opacity: 1;
+  transition: 0.3s;
+}

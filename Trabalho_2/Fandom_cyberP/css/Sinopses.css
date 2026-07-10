@@ -1,0 +1,559 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* CHROME, EDGE, SAFARI */
+main::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+main::-webkit-scrollbar-track {
+  background: black;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
+}
+main{
+  scroll-behavior: smooth;
+}
+
+/* MENU LATERAL */
+
+nav::before{
+  background: #110;
+  content: "";
+}
+
+nav {
+  width: 90px;
+  background: #110;
+  padding: 20px;
+  box-sizing: border-box;
+  border-block-start-radius: 10px;
+  transition: 0.3s;
+}
+
+nav:hover{
+  width: 200px;
+  padding: 20px;
+  /*border-top-right-radius: 10px;*/
+  /*border-bottom-right-radius: 10px;*/
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin:0 ;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Estilos para os items da lista do nav */
+nav li {
+  opacity: 0.3;
+  overflow-x: clip;
+  transition: opacity 0.3s ease-in-out;
+  white-space: nowrap;
+  margin: 5px;
+}
+
+nav:hover li {
+  opacity: 1;
+}
+
+nav a {
+  text-decoration: none;
+  color: #b3d4fc;
+  font-size: 12px;
+  padding: 10px;
+  display: block;
+  transition: 0.3s;
+  border: 1px solid #002020;
+  border-radius: 10px;
+}
+
+nav a:hover {
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+}
+
+.texto-indicando-episodios{
+  color: yellow;
+}
+
+
+
+footer{
+  width: 70px;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 4px;
+  background: #110;
+  color: #b3d4fc;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+footer a{
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  text-decoration: none;
+  color: #b3d4fc;
+
+  opacity: 0.2;
+  flex-direction: column;
+
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+
+footer ul{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  width: 100%;
+}
+
+
+footer li{
+  list-style: none;
+  padding:0;
+  height: 90px;
+  width: 30px;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+footer:hover{
+  width: 200px;
+  padding: 20px;
+  transition: 0.3s ease;
+  gap: 10px;
+}
+
+footer:hover ul{
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 20px;
+}
+footer:hover li {
+  border: 1px solid #002020;
+  border-radius: 10px;
+  list-style: none;
+
+  height: 100%;
+  width: 100%;
+
+  margin: 0;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+  display: block;
+  gap: 10px;
+}
+footer a:hover{
+  color: cyan;
+  text-shadow: 0 0 10px cyan;
+  padding: 10px;
+}
+
+footer:hover a{
+  transform: rotate(0deg);
+  opacity: 1;
+  transition: 0.3s;
+}
+
+footer >image{
+  pointer-events: fill;
+  position: relative;
+}
+
+
+.introducao-da-sinopse-geral {
+  min-height: 100vh;
+  scroll-snap-align: start;
+
+  padding-top: 8%;
+  padding-left: 5%;
+}
+
+/* ÁREA PRINCIPAL */
+.conteudo,
+main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+/* CADA EPISÓDIO */
+.secao-de-sinopse-por-episodios {
+  min-height: 100vh;
+}
+
+.episodio-individual-tela-inteira{
+  position: relative;
+  overflow: hidden;
+
+  min-height: 100vh;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  isolation: isolate;
+
+  padding: 40px;
+  box-sizing: border-box;
+
+  background-size: cover ;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Variaveis para cada episodio: troque as URLs nas classes .ep-01 ... .ep-10 */
+  --imagem-episodio: none;
+  --overlay-parallax: none;
+}
+
+/* Camada 1: imagem de fundo principal de cada episodio */
+.episodio-individual-tela-inteira::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    var(--imagem-episodio);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+}
+
+/* Camada 2: PNG para efeito parallax (voce pode trocar por outro PNG transparente) */
+.episodio-individual-tela-inteira::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: var(--overlay-parallax);
+  background-repeat: no-repeat;
+
+  background-size: var(--parallax-size, min(65vw, 760px) auto);
+  background-position: var(--parallax-position, 46% 60%);
+
+
+  pointer-events: none;
+  z-index: -1;
+
+  /* Este fixed cria deslocamento visual diferente do conteudo (efeito parallax simples) */
+}
+
+.box-do-texto-sinopse > p, h3{
+  color: #e7e70a;
+}
+.box-do-texto-sinopse{
+  padding: 28px;
+  border: 1px solid cyan;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.35);
+  max-width: 920px;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
+}
+
+/* Classes de texto da box: use estas classes para controlar tipografia separadamente */
+
+.texto-box-titulo {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  color: yellow;
+  line-height: 1.2;
+}
+.texto-box-resumo {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+}
+
+/* Enquanto o fundo fica no container, escondemos a imagem <img> interna para nao duplicar */
+
+.imagem-de-capa-do-episodio {
+  display: none;
+}
+/* Mapeamento por episodio: troque as imagens quando tiver os arquivos finais */
+
+.ep-01 { --imagem-episodio: url("../img/Ep1.png"); --overlay-parallax: url("../img/Sinopse_ep1.png");  --parallax-position: -2vw -6vh ; --parallax-size:100% auto; }
+.ep-02 { --imagem-episodio: url("../img/ep2.png"); --overlay-parallax: url("../img/Sinopse_ep2.png"); --parallax-position: 50vw -10vh; --parallax-size:80% auto;}
+.ep-03 { --imagem-episodio: url("../img/Ep3.png"); --overlay-parallax: url("../img/Sinopse_ep3.png"); --parallax-position: -20vw -11vh; --parallax-size: 70% auto; }
+.ep-04 { --imagem-episodio: url("../img/Ep4.png"); --overlay-parallax: url("../img/Sinopse_ep4.png"); --parallax-position: -50vh ; --parallax-size: 90% auto;}
+.ep-05 { --imagem-episodio: url("../img/Ep5.png"); --overlay-parallax: url("../img/Sinopse_ep5.png"); --parallax-position: -3vw -25vh ; --parallax-size: 100% auto;}
+.ep-06 { --imagem-episodio: url("../img/Ep6.png"); --overlay-parallax: url("../img/Sinopse_ep6.png"); --parallax-position: 34vw -5vh; --parallax-size: 100% auto; }
+.ep-07 { --imagem-episodio: url("../img/Ep7.png"); --overlay-parallax: url("../img/Sinopse_ep7.png"); --parallax-position: -10vw -5vh; --parallax-size: 90% auto; }
+.ep-08 { --imagem-episodio: url("../img/Ep8.png"); --overlay-parallax: url("../img/Sinopse_ep8.png"); --parallax-position: 0vw 20vh; --parallax-size: 100% auto;}
+.ep-09 { --imagem-episodio: url("../img/Ep9.png"); --overlay-parallax: url("../img/Sinopse_ep9.png"); --parallax-position: -30vw 0vh; --parallax-size: 100% auto;}
+.ep-10 { --imagem-episodio: url("../img/Ep10.png"); --overlay-parallax: url("../img/Sinopse_ep10.png"); --parallax-position: -20vw -10vh; --parallax-size: 100% auto;}
+/* Aplica as classes novas sem quebrar as classes antigas do HTML */
+
+.box-do-texto-sinopse .titulo-do-episodio {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  line-height: 1.2;
+}
+.box-do-texto-sinopse .resumo-do-episodio {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+  line-height: 1.7;
+}
+
+.ep-01 .box-do-texto-sinopse{
+  margin-top: -10vw;
+  margin-left: -20vh;
+  backdrop-filter: blur(0px);
+}
+.ep-01 .box-do-texto-sinopse:hover{
+  backdrop-filter: blur(3px);
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+.ep-02:after{
+  opacity: 0.3;
+}
+.ep-02 .box-do-texto-sinopse{
+  margin-top: -10vw;
+  margin-left: -20vh;
+  backdrop-filter: blur(0px);
+}
+.ep-02 .box-do-texto-sinopse:hover{
+  backdrop-filter: blur(3px);
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+.ep-03::after{
+  opacity: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ep-03 .box-do-texto-sinopse{
+  margin-top: -10vw;
+  margin-left: -20vh;
+  z-index: 1;
+  transition: 0.3s;
+  backdrop-filter: blur(0px);
+
+}
+.ep-03 .box-do-texto-sinopse:hover{
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transition: 0.4s;
+  transform: scale(1.05);
+}
+.ep-04::after{
+  opacity: 0.9;
+  z-index: 2;
+}
+
+
+.ep-04 .box-do-texto-sinopse{
+  margin-top: 15vw;
+  margin-left: 20vh;
+  z-index: 1;
+  transition: 0.3s;
+  backdrop-filter: blur(0px);
+}
+.ep-04 .box-do-texto-sinopse:hover {
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transition: 0.4s;
+  transform: scale(1.05);
+
+}
+
+.ep-04:has(.box-do-texto-sinopse:hover):after {
+  opacity: 0.3;
+}
+
+.ep-05::after{
+  opacity: 0.6;
+  z-index: 2;
+  pointer-events: none;
+
+  transform: scaley(0.37) scaleX(1.2) ;
+  transform-origin: center top;
+
+}
+.ep-05 .box-do-texto-sinopse{
+  margin-top: 15vw;
+  margin-left: 20vh;
+  z-index: 1;
+  backdrop-filter: blur(0px);
+}
+
+.ep-05 .box-do-texto-sinopse:hover{
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transition: 0.4s;
+  transform: scale(1.05);
+}
+
+.ep-06::after{
+  opacity: 0.8;
+  z-index: 2;
+  pointer-events: none;
+}
+.ep-06 .box-do-texto-sinopse{
+  margin-top: 15vw;
+  margin-left: -15vw;
+
+  z-index: 1;
+  backdrop-filter: blur(0px);
+
+}
+.ep-06 .box-do-texto-sinopse:hover{
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transition: 0.2s;
+  transform: scale(1.05);
+}
+
+.ep-07::after{
+  opacity: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ep-07 .box-do-texto-sinopse{
+  opacity: 0.4;
+  margin-top: -15vw;
+  margin-left: -15vw;
+  z-index: 1;
+  backdrop-filter: blur(0px);
+}
+.ep-07 .box-do-texto-sinopse:hover{
+  opacity: 1;
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.ep-08::after{
+  opacity: 0.8;
+  z-index: 2;
+  pointer-events: none;
+}
+.ep-08 .box-do-texto-sinopse{
+  margin-top: -15vw;
+  opacity: 0.4;
+  z-index: 1;
+  backdrop-filter: blur(0px);
+}
+
+.ep-08 .box-do-texto-sinopse:hover{
+  opacity: 1;
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+.ep-08:has(.box-do-texto-sinopse:hover):after{
+  opacity: 0.2;
+}
+
+.ep-09::after {
+  background-image: var(--overlay-parallax);
+  background-repeat: no-repeat;
+  background-size: var(--parallax-size, 100% auto);
+  background-position: var(--parallax-position, center);
+
+  /* AQUI ESTÁ A MÁGICA */
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,1),
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.09),
+    rgba(0,0,0,0.05),
+    rgba(0,0,0,0.03),
+    rgba(0,0,0,0.02),
+    rgba(0,0,0,0.001),
+    rgba(0,0,0,0)
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,1),
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.09),
+    rgba(0,0,0,0.05),
+    rgba(0,0,0,0.03),
+    rgba(0,0,0,0.02),
+    rgba(0,0,0,0.001),
+    rgba(0,0,0,0)
+  );
+
+  opacity: 0.8;
+
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ep-09 .box-do-texto-sinopse{
+  opacity: 0.4;
+  z-index: 1;
+  backdrop-filter: blur(0px);
+}
+.ep-09 .box-do-texto-sinopse:hover{
+  opacity: 1;
+  backdrop-filter: blur(4px);
+  transform: scale(1.05);
+  transition: 0.2s;
+  z-index: 3;
+}
+
+.ep-10::after{
+  opacity: 0.9;
+  z-index: 2;
+  pointer-events: none;
+}
+.ep-10 .box-do-texto-sinopse{
+  opacity: 0.2;
+  z-index: 1;
+  backdrop-filter: blur(0px);
+}
+.ep-10 .box-do-texto-sinopse:hover{
+  opacity: 1;
+  backdrop-filter: blur(4px);
+  transform: scale(1.05);
+  transition: 0.2s;
+  z-index: 3;
+}
+.ep-10:has(.box-do-texto-sinopse:hover):after{
+  opacity: 0.2;
+}
+

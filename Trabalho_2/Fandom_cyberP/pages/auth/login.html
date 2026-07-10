@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso à Rede - Night City</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { background: #050505; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: "Space Mono", monospace; }
+    .box-login { border: 1px solid cyan; padding: 40px; border-radius: 15px; background: rgba(0, 0, 0, 0.9); box-shadow: 0 0 25px rgba(0, 255, 255, 0.3); max-width: 380px; width: 100%; text-align: center; }
+    input { width: 100%; padding: 10px; margin: 10px 0; background: #111; border: 1px solid #333; color: yellow; font-family: inherit; box-sizing: border-box; }
+    input:focus { border-color: cyan; outline: none; }
+    button { width: 100%; padding: 12px; background: transparent; border: 1px solid cyan; color: cyan; font-family: "Orbitron", sans-serif; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+    button:hover { background: rgba(0, 255, 255, 0.1); text-shadow: 0 0 5px cyan; }
+    .alternar { margin-top: 20px; font-size: 11px; color: #888; cursor: pointer; }
+    .alternar:hover { color: yellow; }
+  </style>
+</head>
+<body>
+
+<div class="box-login">
+  <h2 id="titulo-tela" style="color: yellow; font-family: 'Orbitron';">SUB-REDE LOGIN</h2>
+  <form id="form-auth">
+    <input type="text" id="username" placeholder="NETRUNNER USERNAME" required>
+    <input type="password" id="password" placeholder="PASSWORD" required>
+    <button type="submit" id="btn-submit">CONECTAR</button>
+  </form>
+  <div class="alternar" id="btn-alternar">Criar nova conta de acesso</div>
+</div>
+
+<script>
+  const form = document.getElementById('form-auth');
+  const titulo = document.getElementById('titulo-tela');
+  const btnSubmit = document.getElementById('btn-submit');
+  const btnAlternar = document.getElementById('btn-alternar');
+
+  let modoLogin = true;
+
+  btnAlternar.addEventListener('click', () => {
+    modoLogin = !modoLogin;
+    titulo.innerText = modoLogin ? "SUB-REDE LOGIN" : "REGISTRAR NETRUNNER";
+    btnSubmit.innerText = modoLogin ? "CONECTAR" : "CADASTRAR CONTA";
+    btnAlternar.innerText = modoLogin ? "Criar nova conta de acesso" : "Já tenho credenciais, fazer login";
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const endpoint = modoLogin ? '/api/login' : '/api/registrar';
+
+    try {
+      const res = await fetch(`http://localhost:3000${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const dados = await res.json();
+      if (!res.ok) throw new Error(dados.erro || "Falha na conexão.");
+
+      if (modoLogin) {
+        localStorage.setItem('cyberpunk_token', dados.token);
+        alert("Acesso autorizado!");
+        // REDIRECIONAMENTO DIRETO: Sai de auth/ e entra em Personagens/
+        window.location.href = "Painel.html";
+      } else {
+        alert("Netrunner cadastrado! Faça o login.");
+        location.reload();
+      }
+    } catch (err) {
+      alert("Erro: " + err.message);
+    }
+  });
+</script>
+</body>
+</html>

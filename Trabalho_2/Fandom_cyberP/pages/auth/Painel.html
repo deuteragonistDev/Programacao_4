@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Controle - Night City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    body { background: #050505; color: white; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; font-family: "Space Mono", monospace; padding: 20px; box-sizing: border-box; }
+    .header-painel { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid cyan; padding-bottom: 10px; }
+    .box-painel { border: 1px solid cyan; padding: 30px; border-radius: 15px; background: rgba(0, 0, 0, 0.9); box-shadow: 0 0 25px rgba(0, 255, 255, 0.2); max-width: 800px; width: 100%; margin-bottom: 30px; }
+    input, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #333; color: yellow; font-family: inherit; box-sizing: border-box; }
+    textarea { resize: vertical; min-height: 120px; }
+    button { width: 100%; padding: 12px; background: rgba(0, 255, 255, 0.1); border: 1px solid cyan; color: cyan; font-family: "Orbitron", sans-serif; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    button:hover { background: cyan; color: black; box-shadow: 0 0 15px cyan; }
+    .btn-sair { background: transparent; border: 1px solid red; color: red; width: auto; padding: 8px 16px; margin: 0; }
+
+    /* Estilos da Tabela de Gerenciamento */
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+    th, td { border: 1px solid #333; padding: 10px; text-align: left; }
+    th { color: cyan; font-family: 'Orbitron'; }
+    .btn-tabela { width: auto; padding: 5px 10px; font-size: 12px; margin: 2px; }
+    .btn-editar { border-color: yellow; color: yellow; }
+    .btn-excluir { border-color: red; color: red; }
+  </style>
+</head>
+<body>
+
+<div class="header-painel">
+  <h2 style="color: cyan; font-family: 'Orbitron'; margin: 0;">SISTEMA CENTRAL</h2>
+  <div>
+    <button class="btn-sair" onclick="window.location.href='../Personagens/Personagens.html'" style="border-color: yellow; color: yellow;">VER PÁGINA</button>
+    <button class="btn-sair" id="btn-logout">DESCONECTAR</button>
+  </div>
+</div>
+
+<div class="box-painel">
+  <h3 id="titulo-form" style="color: yellow; text-align: center; margin-top: 0;">ADICIONAR NOVO REGISTRO</h3>
+  <form id="form-post">
+    <input type="text" id="titulo" placeholder="Título (ex: Novo Personagem)" required>
+    <textarea id="texto" placeholder="Biografia ou Conteúdo..." required></textarea>
+    <input type="text" id="imagem" placeholder="Nome da Imagem na pasta (ex: personagem.png)" required>
+    <input type="number" id="ordem" placeholder="Ordem de Apresentação (Ex: 9)" required>
+    <button type="submit" id="btn-submit">PUBLICAR NA REDE</button>
+  </form>
+</div>
+
+<div class="box-painel">
+  <h3 style="color: cyan; margin-top: 0;">BANCO DE DADOS ATUAL</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Ordem</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody id="corpo-tabela">
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const token = localStorage.getItem('cyberpunk_token');
+  if (!token) window.location.href = "login.html";
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.removeItem('cyberpunk_token');
+    window.location.href = "login.html";
+  });
+
+  let idEdicao = null; // Controla se estamos Criando (POST) ou Editando (PUT)
+
+  // Buscar e renderizar tabela
+  async function carregarLista() {
+    const res = await fetch('http://localhost:3000/api/conteudos');
+    const dados = await res.json();
+    const tbody = document.getElementById('corpo-tabela');
+    tbody.innerHTML = '';
+
+    dados.forEach(item => {
+      tbody.innerHTML += `
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.titulo}</td>
+            <td>${item.ordem_apresentacao}</td>
+            <td>
+              <button class="btn-tabela btn-editar" onclick="prepararEdicao(${item.id}, '${item.titulo.replace(/'/g, "\\'")}', '${item.texto.replace(/'/g, "\\'")}', '${item.imagem}', ${item.ordem_apresentacao})">Editar</button>
+              <button class="btn-tabela btn-excluir" onclick="deletarRegistro(${item.id})">Excluir</button>
+            </td>
+          </tr>
+        `;
+    });
+  }
+
+  // Preenche o formulário superior com os dados do item clicado
+  window.prepararEdicao = (id, titulo, texto, imagem, ordem) => {
+    idEdicao = id;
+    document.getElementById('titulo').value = titulo;
+    document.getElementById('texto').value = texto;
+    document.getElementById('imagem').value = imagem;
+    document.getElementById('ordem').value = ordem;
+    document.getElementById('titulo-form').innerText = "EDITANDO REGISTRO: " + id;
+    document.getElementById('btn-submit').innerText = "SALVAR ALTERAÇÕES";
+    window.scrollTo(0, 0); // Sobe a tela para o formulário
+  };
+
+  // Submissão do Formulário (POST ou PUT)
+  document.getElementById('form-post').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      titulo: document.getElementById('titulo').value,
+      texto: document.getElementById('texto').value,
+      imagem: document.getElementById('imagem').value,
+      ordem_apresentacao: document.getElementById('ordem').value
+    };
+
+    const url = idEdicao ? `http://localhost:3000/api/conteudos/${idEdicao}` : 'http://localhost:3000/api/conteudos';
+    const method = idEdicao ? 'PUT' : 'POST';
+
+    try {
+      const resposta = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(payload)
+      });
+
+      if (resposta.ok) {
+        alert(idEdicao ? "Atualizado com sucesso!" : "Publicado com sucesso!");
+        document.getElementById('form-post').reset();
+        idEdicao = null;
+        document.getElementById('titulo-form').innerText = "ADICIONAR NOVO REGISTRO";
+        document.getElementById('btn-submit').innerText = "PUBLICAR NA REDE";
+        carregarLista();
+      }
+    } catch (err) { alert("Erro de rede."); }
+  });
+
+  // Ação de Deletar (DELETE)
+  window.deletarRegistro = async (id) => {
+    if (!confirm("Tem certeza que deseja apagar este dado da rede?")) return;
+    try {
+      const resposta = await fetch(`http://localhost:3000/api/conteudos/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (resposta.ok) {
+        alert("Deletado.");
+        carregarLista();
+      }
+    } catch (err) { alert("Erro ao deletar."); }
+  };
+
+  carregarLista(); // Roda ao abrir a página
+</script>
+</body>
+</html>
